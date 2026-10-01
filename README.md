@@ -34,10 +34,12 @@ Discrete populations:
 
 - Sample mean
 - Sample median
-- Sample standard deviation
+- Sample SD
+- Sample SD (uncorrected)
 - Sample variance
+- Sample variance (uncorrected)
 
-Sample variance and standard deviation use the usual sample variance with denominator `n - 1`.
+The corrected sample variance and SD use denominator `n - 1` (Bessel's correction). Their uncorrected counterparts use denominator `n`.
 
 ## Project structure
 

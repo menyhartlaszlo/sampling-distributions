@@ -275,10 +275,13 @@
               <select id="statistic">
                 <option value="mean">Sample mean</option>
                 <option value="median">Sample median</option>
-                <option value="sd">Sample standard deviation</option>
+                <option value="sd">Sample SD</option>
+                <option value="sd_uncorr">Sample SD (uncorr.)</option>
                 <option value="variance">Sample variance</option>
+                <option value="variance_uncorr">Sample variance (uncorr.)</option>
               </select>
             </div>
+            <p class="hint" id="statisticHelp"></p>
             <div class="checkbox-line">
               <input id="showTheory" type="checkbox" checked>
               <label for="showTheory" data-i18n="showTheory">Show theoretical sampling distribution</label>
@@ -383,16 +386,17 @@
         populationDistribution:'Population distribution', samplingDistribution:'Sampling distribution', samplingDistributionOf:'Sampling distribution of the {stat}', populationChart:'Population distribution chart', sampleChart:'Example random sample chart', samplingChart:'Sampling distribution chart', chartLegend:'Chart legend', simulationControls:'Simulation controls', simulationResults:'Simulation results',
         sourceContinuous:'Continuous density', sourceDiscrete:'Discrete PMF', populationValue:'Population value, x', density:'Density', probability:'Probability', frequency:'Frequency', sampleValue:'Sample value, x', densityProbability:'Density / probability', count:'count', proportion:'proportion',
         populationMean:'Population mean', populationVariance:'Population variance', populationSD:'Population SD', median:'Median', notUnique:'not unique',
-        exactAvailable:'Exact when available; approximations are labelled.', noSimpleReference:'No simple justified reference is shown for this combination.', exactNormal:'Exact normal theory', exactGamma:'Exact gamma theory', exactBinomial:'Exact binomial theory', exactPoisson:'Exact Poisson theory', exactChiSq:'Exact χ² theory', exactChi:'Exact χ theory', cltApprox:'CLT normal approximation', notExact:'not exact',
+        exactAvailable:'Exact when available; approximations are labelled.', noSimpleReference:'No simple justified reference is shown for this combination.', exactNormal:'Exact normal theory', exactGamma:'Exact gamma theory', exactBinomial:'Exact binomial theory', exactPoisson:'Exact Poisson theory', exactChiSq:'Exact χ² theory', exactChi:'Exact χ theory', exactPointMass:'Exact point mass at 0', cltApprox:'CLT normal approximation', notExact:'not exact',
         monteCarlo:'Monte Carlo', simulatedP:'simulated P', exactP:'exact P', sampleStatForThis:'{stat} for this sample', statisticMarker:'{stat}: {value}',
         bernoulliCallout:'For a Bernoulli population, x̄ can only be 0, 1/n, 2/n, …, 1. <b>Theoretically possible values: n + 1 = {possible}.</b> Distinct values observed: <b>{observed}</b>.', discreteCallout:'This statistic is discrete here. Distinct values observed in the simulation: <b>{observed}</b>.', denseCallout:'The possible sample means still lie on a discrete lattice, but the values are too dense to draw as separate bars at this scale. Distinct values observed: <b>{observed}</b>.',
         targetParameter:'Target population parameter', dependsStatistic:'depends on statistic', simulatedMean:'Mean of simulated statistic', mcMean:'Monte Carlo mean', standardError:'Standard error', sdSampling:'SD of sampling distribution', estimatedBias:'Estimated bias', simMeanMinusTarget:'simulation mean − target', sampleSize:'Sample size', observationsPerSample:'observations per sample', replications:'Replications', statisticsSimulated:'statistics simulated', populationTarget:'population target', sdAcross:'SD across {R} statistics', noUniqueTarget:'no unique target', seedLabel:'seed: {seed}',
         targetMean:'Population mean, μ', targetMedian:'Population median', targetMedianNotUnique:'Population median (not unique)', targetVariance:'Population variance, σ²', targetSD:'Population SD, σ',
         sdFootnote:'Population SD describes individual observations; sample SD is calculated within one sample; standard error is the SD across repeated sample statistics.',
         readyPrompt:'Choose settings, then select Simulate.', settingsChanged:'Settings changed. Select Simulate to generate matching results.', theorySaved:'The reference display setting is saved. Select Simulate when ready.', resultsCleared:'Results cleared. Your simulation settings are unchanged.', generating:'Generating {R} samples of size {n}…', complete:'Complete: {R} sample statistics generated from {dist}.',
-        errN:'Sample size n must be a whole number from 1 to 10,000.', errR:'Replications R must be a whole number from 2 to 100,000.', errBaseWork:'This request exceeds 10 million generated observations. Reduce n or R.', errBinomialWork:'This Binomial request exceeds 25 million Bernoulli trials. Reduce n, R, or m.', errMedianWork:'This median request requires too much sorting. Reduce n or R.', errN2:'Sample standard deviation and variance require n ≥ 2.', errSeed:'The random seed must be a positive integer no greater than 2,147,483,647.', errFinite:'All distribution parameters must be finite numbers.', errNormalSigma:'Normal standard deviation σ must be greater than 0.', errUniform:'Uniform maximum b must be greater than minimum a.', errExponential:'Exponential rate λ must be greater than 0.', errProbability:'Probability p must be between 0 and 1.', errBinomialM:'Binomial trials m must be a whole number from 1 to 100.', errPoisson:'Poisson λ must be greater than 0 and at most 100.',
+        errN:'Sample size n must be a whole number from 1 to 10,000.', errR:'Replications R must be a whole number from 2 to 100,000.', errBaseWork:'This request exceeds 10 million generated observations. Reduce n or R.', errBinomialWork:'This Binomial request exceeds 25 million Bernoulli trials. Reduce n, R, or m.', errMedianWork:'This median request requires too much sorting. Reduce n or R.', errN2:'Sample SD and sample variance require n ≥ 2.', errSeed:'The random seed must be a positive integer no greater than 2,147,483,647.', errFinite:'All distribution parameters must be finite numbers.', errNormalSigma:'Normal standard deviation σ must be greater than 0.', errUniform:'Uniform maximum b must be greater than minimum a.', errExponential:'Exponential rate λ must be greater than 0.', errProbability:'Probability p must be between 0 and 1.', errBinomialM:'Binomial trials m must be a whole number from 1 to 100.', errPoisson:'Poisson λ must be greater than 0 and at most 100.',
         distNormal:'Normal', distUniform:'Uniform', distExponential:'Exponential', distBernoulli:'Bernoulli', distBinomial:'Binomial', distPoisson:'Poisson',
-        statMean:'Sample mean', statMedian:'Sample median', statSD:'Sample standard deviation', statVariance:'Sample variance', statMeanLower:'sample mean', statMedianLower:'sample median', statSDLower:'sample standard deviation', statVarianceLower:'sample variance',
+        statMean:'Sample mean', statMedian:'Sample median', statSD:'Sample SD', statSDUncorr:'Sample SD (uncorr.)', statVariance:'Sample variance', statVarianceUncorr:'Sample variance (uncorr.)', statMeanLower:'sample mean', statMedianLower:'sample median', statSDLower:'sample SD', statSDUncorrLower:'sample SD (uncorr.)', statVarianceLower:'sample variance', statVarianceUncorrLower:'sample variance (uncorr.)',
+        statHelpSD:'Square root of sample variance calculated with denominator n−1.', statHelpSDUncorr:'Square root of sample variance calculated with denominator n.', statHelpVariance:'Uses denominator n−1 (Bessel’s correction).', statHelpVarianceUncorr:'Uses denominator n.',
         paramNormalMu:'Mean, μ', paramNormalSigma:'SD, σ', paramUniformA:'Minimum, a', paramUniformB:'Maximum, b', paramExponentialLambda:'Rate, λ', paramBernoulliP:'Probability, p', paramBinomialM:'Trials, m', paramBinomialP:'Probability, p', paramPoissonLambda:'Mean / rate, λ'
       },
       hu: {
@@ -405,7 +409,7 @@
         populationDistribution:'Sokasági eloszlás', samplingDistribution:'Mintavételi eloszlás', samplingDistributionOf:'A(z) {stat} mintavételi eloszlása', populationChart:'A sokasági eloszlás grafikonja', sampleChart:'A példa véletlen minta grafikonja', samplingChart:'A mintavételi eloszlás grafikonja', chartLegend:'Jelmagyarázat', simulationControls:'Szimulációs vezérlők', simulationResults:'Szimulációs eredmények',
         sourceContinuous:'Folytonos sűrűségfüggvény', sourceDiscrete:'Diszkrét tömegfüggvény', populationValue:'Sokasági érték, x', density:'Sűrűség', probability:'Valószínűség', frequency:'Gyakoriság', sampleValue:'Mintaérték, x', densityProbability:'Sűrűség / valószínűség', count:'gyakoriság', proportion:'arány',
         populationMean:'Sokasági várható érték', populationVariance:'Sokasági variancia', populationSD:'Sokasági szórás', median:'Medián', notUnique:'nem egyértelmű',
-        exactAvailable:'Ha lehetséges, egzakt; a közelítéseket külön jelöljük.', noSimpleReference:'Ehhez a kombinációhoz nem jeleníthető meg egyszerű, indokolt referenciaeloszlás.', exactNormal:'Egzakt normális elmélet', exactGamma:'Egzakt gamma-eloszlás', exactBinomial:'Egzakt binomiális elmélet', exactPoisson:'Egzakt Poisson-elmélet', exactChiSq:'Egzakt χ²-eloszlás', exactChi:'Egzakt χ-eloszlás', cltApprox:'Centrális határeloszlás-tételen alapuló normális közelítés', notExact:'nem egzakt',
+        exactAvailable:'Ha lehetséges, egzakt; a közelítéseket külön jelöljük.', noSimpleReference:'Ehhez a kombinációhoz nem jeleníthető meg egyszerű, indokolt referenciaeloszlás.', exactNormal:'Egzakt normális elmélet', exactGamma:'Egzakt gamma-eloszlás', exactBinomial:'Egzakt binomiális elmélet', exactPoisson:'Egzakt Poisson-elmélet', exactChiSq:'Egzakt χ²-eloszlás', exactChi:'Egzakt χ-eloszlás', exactPointMass:'Egzakt ponttömeg 0-nál', cltApprox:'Centrális határeloszlás-tételen alapuló normális közelítés', notExact:'nem egzakt',
         monteCarlo:'Monte-Carlo-szimuláció', simulatedP:'szimulált P', exactP:'egzakt P', sampleStatForThis:'{stat} ebben a mintában', statisticMarker:'{stat}: {value}',
         bernoulliCallout:'Bernoulli-sokaság esetén x̄ csak a 0, 1/n, 2/n, …, 1 értékeket veheti fel. <b>Az elméletileg lehetséges értékek száma: n + 1 = {possible}.</b> A megfigyelt különböző értékek száma: <b>{observed}</b>.', discreteCallout:'Ez a statisztika itt diszkrét. A szimulációban megfigyelt különböző értékek száma: <b>{observed}</b>.', denseCallout:'A lehetséges mintaátlagok továbbra is diszkrét rácson helyezkednek el, de ezen a skálán túl sűrűk az elkülönített oszlopokhoz. A megfigyelt különböző értékek száma: <b>{observed}</b>.',
         targetParameter:'Célként szolgáló sokasági paraméter', dependsStatistic:'a statisztikától függ', simulatedMean:'A szimulált statisztika átlaga', mcMean:'Monte-Carlo-átlag', standardError:'Standard hiba', sdSampling:'A mintavételi eloszlás szórása', estimatedBias:'Becsült torzítás', simMeanMinusTarget:'szimulációs átlag − célérték', sampleSize:'Mintanagyság', observationsPerSample:'megfigyelés mintánként', replications:'Ismétlések', statisticsSimulated:'szimulált statisztikák', populationTarget:'sokasági célérték', sdAcross:'{R} statisztika szórása', noUniqueTarget:'nincs egyértelmű célérték', seedLabel:'mag: {seed}',
@@ -414,14 +418,19 @@
         readyPrompt:'Válassza ki a beállításokat, majd kattintson a Szimuláció gombra.', settingsChanged:'A beállítások megváltoztak. Az új eredményekhez indítsa el a szimulációt.', theorySaved:'A referenciaeloszlás beállítása mentve. Ha elkészült, indítsa el a szimulációt.', resultsCleared:'Az eredményeket töröltük. A szimuláció beállításai változatlanok.', generating:'{R} darab, egyenként {n} elemű minta generálása…', complete:'Kész: {R} mintastatisztika készült {dist} eloszlásból.',
         errN:'Az n mintanagyság 1 és 10 000 közötti egész szám legyen.', errR:'Az R ismétlésszám 2 és 100 000 közötti egész szám legyen.', errBaseWork:'A kérés több mint 10 millió megfigyelést generálna. Csökkentse n vagy R értékét.', errBinomialWork:'Ez a binomiális kérés több mint 25 millió Bernoulli-kísérletet igényelne. Csökkentse n, R vagy m értékét.', errMedianWork:'A medián kiszámítása túl sok rendezést igényelne. Csökkentse n vagy R értékét.', errN2:'A mintaszóráshoz és mintavarianciához n ≥ 2 szükséges.', errSeed:'A random seed 1 és 2 147 483 647 közötti pozitív egész szám legyen.', errFinite:'Minden eloszlásparaméternek véges számnak kell lennie.', errNormalSigma:'A normális eloszlás σ szórása legyen 0-nál nagyobb.', errUniform:'Az egyenletes eloszlás b maximuma legyen nagyobb az a minimumnál.', errExponential:'Az exponenciális eloszlás λ rátája legyen 0-nál nagyobb.', errProbability:'A p valószínűség 0 és 1 közötti legyen.', errBinomialM:'A binomiális eloszlás m kísérletszáma 1 és 100 közötti egész szám legyen.', errPoisson:'A Poisson-eloszlás λ paramétere legyen 0-nál nagyobb és legfeljebb 100.',
         distNormal:'Normális', distUniform:'Egyenletes', distExponential:'Exponenciális', distBernoulli:'Bernoulli', distBinomial:'Binomiális', distPoisson:'Poisson',
-        statMean:'Mintaátlag', statMedian:'Mintamedián', statSD:'Mintaszórás', statVariance:'Mintavariancia', statMeanLower:'mintaátlag', statMedianLower:'mintamedián', statSDLower:'mintaszórás', statVarianceLower:'mintavariancia',
+        statMean:'Mintaátlag', statMedian:'Mintamedián', statSD:'Mintaszórás', statSDUncorr:'Mintaszórás (nem korr.)', statVariance:'Mintavariancia', statVarianceUncorr:'Mintavariancia (nem korr.)', statMeanLower:'mintaátlag', statMedianLower:'mintamedián', statSDLower:'mintaszórás', statSDUncorrLower:'mintaszórás (nem korr.)', statVarianceLower:'mintavariancia', statVarianceUncorrLower:'mintavariancia (nem korr.)',
+        statHelpSD:'Az n−1 nevezővel számított mintavariancia négyzetgyöke.', statHelpSDUncorr:'Az n nevezővel számított mintavariancia négyzetgyöke.', statHelpVariance:'Az n−1 nevezőt használja (Bessel-korrekció).', statHelpVarianceUncorr:'Az n nevezőt használja.',
         paramNormalMu:'Várható érték, μ', paramNormalSigma:'Szórás, σ', paramUniformA:'Minimum, a', paramUniformB:'Maximum, b', paramExponentialLambda:'Ráta, λ', paramBernoulliP:'Valószínűség, p', paramBinomialM:'Kísérletek száma, m', paramBinomialP:'Valószínűség, p', paramPoissonLambda:'Várható érték / ráta, λ'
       }
     };
 
     const DIST_KEY = {normal:'distNormal',uniform:'distUniform',exponential:'distExponential',bernoulli:'distBernoulli',binomial:'distBinomial',poisson:'distPoisson'};
-    const STAT_KEY = {mean:'statMean',median:'statMedian',sd:'statSD',variance:'statVariance'};
-    const STAT_LOWER_KEY = {mean:'statMeanLower',median:'statMedianLower',sd:'statSDLower',variance:'statVarianceLower'};
+    const STAT_KEY = {mean:'statMean',median:'statMedian',sd:'statSD',sd_uncorr:'statSDUncorr',variance:'statVariance',variance_uncorr:'statVarianceUncorr'};
+    const STAT_LOWER_KEY = {mean:'statMeanLower',median:'statMedianLower',sd:'statSDLower',sd_uncorr:'statSDUncorrLower',variance:'statVarianceLower',variance_uncorr:'statVarianceUncorrLower'};
+    const STAT_HELP_KEY = {sd:'statHelpSD',sd_uncorr:'statHelpSDUncorr',variance:'statHelpVariance',variance_uncorr:'statHelpVarianceUncorr'};
+    const DISPERSION_STATS = new Set(['sd','sd_uncorr','variance','variance_uncorr']);
+    const VARIANCE_STATS = new Set(['variance','variance_uncorr']);
+    const UNCORRECTED_STATS = new Set(['sd_uncorr','variance_uncorr']);
     function t(key, vars={}) { let s=(I18N[state?.lang||'en']||I18N.en)[key] ?? I18N.en[key] ?? key; return s.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??`{${k}}`); }
     function distName(d){return t(DIST_KEY[d]);}
     function statName(s){return t(STAT_KEY[s]);}
@@ -511,7 +520,7 @@
     function targetFor(c, info) {
       if (c.stat === 'mean') return { value: info.mean, label: t('targetMean') };
       if (c.stat === 'median') return info.median === null ? { value:null, label:t('targetMedianNotUnique') } : { value:info.median, label:t('targetMedian') };
-      if (c.stat === 'variance') return { value:info.variance, label:t('targetVariance') };
+      if (VARIANCE_STATS.has(c.stat)) return { value:info.variance, label:t('targetVariance') };
       return { value:Math.sqrt(info.variance), label:t('targetSD') };
     }
 
@@ -567,7 +576,8 @@
       }
       let sum=0; for(const x of values) sum+=x; const mean=sum/n;
       let ss=0; for(const x of values) ss+=(x-mean)*(x-mean);
-      const v=ss/(n-1); return kind==='variance' ? v : Math.sqrt(v);
+      const denominator=UNCORRECTED_STATS.has(kind)?n:n-1, v=ss/denominator;
+      return VARIANCE_STATS.has(kind) ? v : Math.sqrt(v);
     }
 
     // Chunking keeps controls and progress responsive during large simulations.
@@ -660,7 +670,7 @@
     }
     function statisticSupport(c){
       const support={integer:false};
-      if(c.stat==='sd'||c.stat==='variance')support.hardMin=0;
+      if(DISPERSION_STATS.has(c.stat))support.hardMin=0;
       else if(c.stat==='mean'||c.stat==='median'){
         if(['exponential','bernoulli','binomial','poisson'].includes(c.dist))support.hardMin=0;
         if(c.dist==='bernoulli')support.hardMax=1;
@@ -743,6 +753,7 @@
     }
 
     function theoreticalSpec(c,info){
+      if(c.n===1&&UNCORRECTED_STATS.has(c.stat))return{type:'discrete',labelKey:'exactPointMass',values:[[0,1]]};
       if(c.stat==='mean'){
         const se=Math.sqrt(info.variance/c.n);
         if(c.dist==='normal') return {type:'density',labelKey:'exactNormal',pdf:x=>normalPdf(x,info.mean,se),mean:info.mean,sd:se};
@@ -761,10 +772,10 @@
         if(c.dist==='uniform'&&c.n>=5)return {type:'density',labelKey:'cltApprox',pdf:x=>normalPdf(x,info.mean,se),mean:info.mean,sd:se,approx:true};
         return null;
       }
-      if(c.dist==='normal' && (c.stat==='variance'||c.stat==='sd')){
-        const df=c.n-1,sig2=c.params.sigma**2;
-        if(c.stat==='variance') return {type:'density',labelKey:'exactChiSq',pdf:x=>x<=0?0:gammaPdf(x,df/2,df/(2*sig2))};
-        return {type:'density',labelKey:'exactChi',pdf:x=>x<=0?0:2*x*gammaPdf(x*x,df/2,df/(2*sig2))};
+      if(c.dist==='normal' && DISPERSION_STATS.has(c.stat)){
+        const df=c.n-1,sig2=c.params.sigma**2,denominator=UNCORRECTED_STATS.has(c.stat)?c.n:df;
+        if(VARIANCE_STATS.has(c.stat)) return {type:'density',labelKey:'exactChiSq',pdf:x=>x<=0?0:gammaPdf(x,df/2,denominator/(2*sig2))};
+        return {type:'density',labelKey:'exactChi',pdf:x=>x<=0?0:2*x*gammaPdf(x*x,df/2,denominator/(2*sig2))};
       }
       return null;
     }
@@ -807,11 +818,12 @@
     }
 
     function observedDiscrete(c,stats){
+      if(c.n===1&&UNCORRECTED_STATS.has(c.stat))return true;
       if(c.stat==='mean' && c.dist==='bernoulli') return true;
       if(c.stat==='mean' && c.dist==='binomial') return c.n*c.params.m<=700;
       if(c.stat==='mean' && c.dist==='poisson') return Math.ceil(c.n*c.params.lambda+6*Math.sqrt(c.n*c.params.lambda)+10)<=700;
       if(!populationInfo(c).continuous && c.stat==='median') return new Set(Array.from(stats,canonical)).size<=70;
-      if(c.dist==='bernoulli' && (c.stat==='variance'||c.stat==='sd')) return new Set(Array.from(stats,canonical)).size<=70;
+      if(c.dist==='bernoulli' && DISPERSION_STATS.has(c.stat)) return new Set(Array.from(stats,canonical)).size<=70;
       return false;
     }
     function canonical(x){ return Number(x.toPrecision(12)); }
@@ -881,6 +893,10 @@
       $('showTheory').disabled=!spec;
       if(!spec)$('showTheory').checked=false;
     }
+    function updateStatisticHelp(){
+      const key=STAT_HELP_KEY[$('statistic').value],help=$('statisticHelp');
+      help.hidden=!key;help.textContent=key?t(key):'';
+    }
     function setStatus(key,args={},kind=''){
       state.status={key,args,kind};
       const displayArgs={...args};if(typeof displayArgs.R==='number')displayArgs.R=fmt(displayArgs.R);if(typeof displayArgs.n==='number')displayArgs.n=fmt(displayArgs.n);if(displayArgs.dist)displayArgs.dist=distName(displayArgs.dist);
@@ -928,6 +944,7 @@
       $('continuousGroup').label=t('continuous');$('discreteGroup').label=t('discrete');
       for(const [value,key] of Object.entries(DIST_KEY))document.querySelector(`#distribution option[value="${value}"]`).textContent=t(key);
       for(const [value,key] of Object.entries(STAT_KEY))document.querySelector(`#statistic option[value="${value}"]`).textContent=t(key);
+      updateStatisticHelp();
       document.querySelector('.controls').setAttribute('aria-label',t('simulationControls'));document.querySelector('.results').setAttribute('aria-label',t('simulationResults'));
       $('populationChart').setAttribute('aria-label',t('populationChart'));$('sampleChart').setAttribute('aria-label',t('sampleChart'));$('samplingChart').setAttribute('aria-label',t('samplingChart'));$('legend').setAttribute('aria-label',t('chartLegend'));
       renderParameterFields();
@@ -944,7 +961,7 @@
     $('distribution').addEventListener('change',()=>{renderParameterFields();configChanged();});
     $('sampleSize').addEventListener('input',configChanged);
     $('replications').addEventListener('input',configChanged);
-    $('statistic').addEventListener('change',()=>{updateTheoryHelp();configChanged();});
+    $('statistic').addEventListener('change',()=>{updateStatisticHelp();updateTheoryHelp();configChanged();});
     $('useSeed').addEventListener('change',()=>{updateSeedVisibility();configChanged();});
     $('seed').addEventListener('input',configChanged);
     $('showTheory').addEventListener('change',()=>{if(state.results){state.results.config.theory=$('showTheory').checked;drawSampling(state.results);}else setStatus('theorySaved');});
