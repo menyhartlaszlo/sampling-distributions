@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive Monte Carlo laboratory for exploring sampling distributions.">
+  <title>Sampling Distribution Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23172b4d'/%3E%3Cpath d='M10 48h44M14 43l8-12 9 7 11-22 8 16' fill='none' stroke='%2337d4ae' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='42' cy='16' r='4' fill='%23ffd166'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <h1 data-i18n="appTitle">Sampling Distribution Lab</h1>
+        <p class="subtitle" data-i18n="subtitle">Build a sampling distribution, one random sample at a time.</p>
+      </div>
+      <div class="header-tools">
+        <div class="step-key" id="stepKey"><b>Population</b> → sample → statistic → repeat</div>
+        <div class="language-switch" role="group" aria-label="Language / Nyelv">
+          <button id="langEn" type="button" aria-pressed="true">English</button>
+          <button id="langHu" type="button" aria-pressed="false">Magyar</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="workspace">
+      <aside class="controls card" aria-label="Simulation controls">
+        <h2 data-i18n="simulationSetup">Simulation setup</h2>
+        <form id="controlsForm" novalidate>
+          <section class="control-section">
+            <h2><span class="section-number">1</span><span data-i18n="population">Population</span></h2>
+            <div class="field">
+              <label for="distribution" data-i18n="probabilityDistribution">Probability distribution</label>
+              <select id="distribution">
+                <optgroup id="continuousGroup" label="Continuous">
+                  <option value="normal">Normal</option>
+                  <option value="uniform">Uniform</option>
+                  <option value="exponential">Exponential</option>
+                </optgroup>
+                <optgroup id="discreteGroup" label="Discrete">
+                  <option value="bernoulli">Bernoulli</option>
+                  <option value="binomial">Binomial</option>
+                  <option value="poisson">Poisson</option>
+                </optgroup>
+              </select>
+            </div>
+            <div id="parameterFields"></div>
+          </section>
+
+          <section class="control-section">
+            <h2><span class="section-number">2</span><span data-i18n="sampling">Sampling</span></h2>
+            <div class="field-row">
+              <div class="field">
+                <label for="sampleSize" data-i18n="sampleSizeN">Sample size, n</label>
+                <input id="sampleSize" type="number" min="1" max="10000" step="1" value="10" inputmode="numeric">
+              </div>
+              <div class="field">
+                <label for="replications" data-i18n="replicationsR">Replications, R</label>
+                <input id="replications" type="number" min="2" max="100000" step="1" value="10000" inputmode="numeric">
+              </div>
+            </div>
+            <p class="hint" data-i18n="limits">Limits: n ≤ 10,000, R ≤ 100,000, and n × R ≤ 10 million.</p>
+          </section>
+
+          <section class="control-section">
+            <h2><span class="section-number">3</span><span data-i18n="statistic">Statistic</span></h2>
+            <div class="field">
+              <label for="statistic" data-i18n="calculatedEverySample">Calculated for every sample</label>
+              <select id="statistic">
+                <option value="mean">Sample mean</option>
+                <option value="median">Sample median</option>
+                <option value="sd">Sample standard deviation</option>
+                <option value="variance">Sample variance</option>
+              </select>
+            </div>
+            <div class="checkbox-line">
+              <input id="showTheory" type="checkbox" checked>
+              <label for="showTheory" data-i18n="showTheory">Show theoretical sampling distribution</label>
+            </div>
+            <p class="hint" id="theoryHelp">Exact when available; approximations are labelled.</p>
+          </section>
+
+          <section class="control-section">
+            <h2><span class="section-number">4</span><span data-i18n="run">Run</span></h2>
+            <div class="checkbox-line">
+              <input id="useSeed" type="checkbox" aria-controls="seedControls" aria-expanded="false">
+              <label for="useSeed" data-i18n="useRandomSeed">Use random seed</label>
+            </div>
+            <div class="field" id="seedControls" hidden>
+              <label for="seed" data-i18n="randomSeed">Random seed</label>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:7px">
+                <input id="seed" type="number" value="12345" min="1" max="2147483647" step="1" inputmode="numeric">
+                <button id="newSeed" type="button" class="button secondary small-button" data-i18n="newSeed">New seed</button>
+              </div>
+              <span class="hint" data-i18n="seedHint">Same settings + same seed = same result.</span>
+            </div>
+            <div class="actions">
+              <button id="simulate" type="submit" class="button primary" data-i18n="simulate">Simulate</button>
+              <button id="reset" type="button" class="button secondary" data-i18n="reset">Reset</button>
+            </div>
+          </section>
+        </form>
+      </aside>
+
+      <section class="results" aria-label="Simulation results">
+        <div id="status" class="status-strip" role="status" aria-live="polite">
+          <span id="statusText">Choose settings, then select Simulate.</span>
+          <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        </div>
+
+        <div class="top-panels">
+          <article class="panel card">
+            <div class="panel-head">
+              <div><div class="eyebrow" data-i18n="theSource">The source</div><h2 id="populationTitle">Population distribution</h2></div>
+              <div class="panel-note" id="populationType"></div>
+            </div>
+            <div class="chart-wrap"><svg id="populationChart" class="chart" role="img" aria-label="Population distribution chart"></svg></div>
+            <div class="population-facts" id="populationFacts"></div>
+          </article>
+
+          <article class="panel card">
+            <div class="panel-head">
+              <div><div class="eyebrow" data-i18n="oneDraw">One draw</div><h2 data-i18n="exampleSample">Example random sample</h2></div>
+              <div class="panel-note" id="sampleSizeLabel">Awaiting simulation</div>
+            </div>
+            <div class="sample-chart-wrap">
+              <svg id="sampleChart" class="chart" role="img" aria-label="Example random sample chart"></svg>
+              <div class="empty-state" id="sampleEmpty"><div><strong data-i18n="noSampleYet">No sample yet</strong><span data-i18n="selectSimulateSample">Select Simulate to draw one sample.</span></div></div>
+            </div>
+            <details id="sampleValuesDetails" class="sample-values-details" hidden>
+              <summary id="sampleValuesSummary">Show sample values</summary>
+              <div class="sample-values" id="sampleValues"></div>
+            </details>
+            <div class="sample-result"><span id="sampleStatisticLabel">Sample statistic</span><strong id="sampleStatisticValue">—</strong></div>
+          </article>
+        </div>
+
+        <article class="panel sampling-panel card">
+          <div class="panel-head">
+            <div><div class="eyebrow" data-i18n="repeatCompare">Repeat & compare</div><h2 id="samplingTitle">Sampling distribution</h2></div>
+            <div class="legend" id="legend" aria-label="Chart legend"></div>
+          </div>
+          <div class="chart-wrap">
+            <svg id="samplingChart" class="chart" role="img" aria-label="Sampling distribution chart"></svg>
+            <div class="empty-state" id="samplingEmpty"><div><strong data-i18n="noSamplingYet">No sampling distribution yet</strong><span data-i18n="replicationContributes">Each replication will contribute one statistic here.</span></div></div>
+          </div>
+          <div id="discreteCallout" class="discrete-callout"></div>
+          <div class="summary" id="summary">
+            <div class="metric"><div class="metric-label">Target population parameter</div><div class="metric-value">—</div><div class="metric-sub">depends on statistic</div></div>
+            <div class="metric"><div class="metric-label">Mean of simulated statistic</div><div class="metric-value">—</div><div class="metric-sub">Monte Carlo mean</div></div>
+            <div class="metric"><div class="metric-label">Standard error</div><div class="metric-value">—</div><div class="metric-sub">SD of sampling distribution</div></div>
+            <div class="metric"><div class="metric-label">Estimated bias</div><div class="metric-value">—</div><div class="metric-sub">simulation mean − target</div></div>
+            <div class="metric"><div class="metric-label">Sample size</div><div class="metric-value">—</div><div class="metric-sub">observations per sample</div></div>
+            <div class="metric"><div class="metric-label">Replications</div><div class="metric-value">—</div><div class="metric-sub">statistics simulated</div></div>
+          </div>
+          <p class="footnote" data-i18n="sdFootnote">Population SD describes individual observations; sample SD is calculated within one sample; standard error is the SD across repeated sample statistics.</p>
+        </article>
+      </section>
+    </div>
+  </main>
+  <footer>Created by László Menyhárt, Hungarian University of Agriculture and Life Sciences, Department of Applied Statistics · 2026</footer>
+  <div id="tooltip" class="tooltip" role="tooltip"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
